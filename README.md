@@ -1,3 +1,3 @@
 # maven-project
 
-Simple Maven Project - Work in progress
+Simple Maven Project - This Code is for Training purposes and it's currently being worked upon 
