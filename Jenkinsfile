@@ -4,12 +4,14 @@ pipeline {
     stage('Build') {
       steps {
         echo 'Building..........'
+        sleep 5
       }
     }
 
     stage('Test') {
       steps {
         echo 'Testing........'
+        mail(subject: 'I\'m Testing', body: 'Hey Smart, I am  testing....', from: 'ruudgong', to: 'smart.nwachukwu@gmail.com')
       }
     }
 
