@@ -11,7 +11,6 @@ pipeline {
     stage('Test') {
       steps {
         echo 'Testing........'
-        mail(subject: 'I\'m Testing', body: 'Hey Smart, I am  testing....', from: 'ruudgong', to: 'smart.nwachukwu@gmail.com')
       }
     }
 
