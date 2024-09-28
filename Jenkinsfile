@@ -1,21 +1,24 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'M3'  // Replace 'Maven3' with the name you set in Jenkins for Maven
+    }
+
     environment {
         // Define the SSH credentials ID and remote server details
         SSH_CREDENTIALS_ID = 'tomcat-ssh-key'
-        REMOTE_TOMCAT_SERVER = '44.203.174.207'
-        REMOTE_USER = 'jenkins'
-        REMOTE_TOMCAT_WEBAPPS = '/opt/tomcat/webapps'
-        REMOTE_TOMCAT_SHUTDOWN = '/opt/tomcat/bin/shutdown.sh'
-        REMOTE_TOMCAT_STARTUP = '/opt/tomcat/bin/startup.sh'
+        REMOTE_TOMCAT_SERVER = '44.203.174.207'  // Replace with your actual server IP or hostname
+        REMOTE_TOMCAT_WEBAPPS = '/opt/tomcat/webapps'  // Path to the webapps directory in Tomcat
+        REMOTE_TOMCAT_SHUTDOWN = '/opt/tomcat/bin/shutdown.sh'  // Shutdown script for Tomcat
+        REMOTE_TOMCAT_STARTUP = '/opt/tomcat/bin/startup.sh'    // Startup script for Tomcat
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the source code from GitHub
-                git url: 'https://github.com/ruudgong/hello-world.git'
+                git url: 'https://github.com/ruudgong/hello-world.git', branch: 'master'
             }
         }
 
@@ -29,28 +32,25 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Define the path to the generated WAR file
-                    def warFile = 'target/*.war'
-
-                    // Use SSH to copy the WAR file to the Tomcat webapps directory
+                    // Deploy the WAR file to the remote Tomcat server via SSH
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
-                                configName: REMOTE_TOMCAT_SERVER,
+                                configName: 'tomcat-server',  // Make sure this matches the SSH server config name
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: warFile,
-                                        removePrefix: 'target',  // Strip the "target" prefix from the destination path
-                                        remoteDirectory: REMOTE_TOMCAT_WEBAPPS,  // Tomcat's webapps directory
-                                        execCommand: '''
+                                        sourceFiles: '**/target/*.war',   // WAR file location
+                                        removePrefix: 'target',           // Strip the "target" prefix in the destination
+                                        remoteDirectory: REMOTE_TOMCAT_WEBAPPS,  // Path to Tomcat's webapps directory
+                                        execCommand: """
                                             ${REMOTE_TOMCAT_SHUTDOWN};
                                             sleep 5;
-                                            ${REMOTE_TOMCAT_STARTUP}
-                                        ''',  // Restart Tomcat after deploying the WAR
-                                        execTimeout: 120000  // Allow up to 2 minutes for Tomcat restart
+                                            ${REMOTE_TOMCAT_STARTUP};
+                                        """,  // Restart Tomcat after deploying the WAR
+                                        execTimeout: 120000  // Timeout for the commands to execute
                                     )
                                 ],
-                                verbose: true
+                                verbose: true  // Enable detailed logs for debugging
                             )
                         ]
                     )
@@ -61,7 +61,6 @@ pipeline {
 
     post {
         always {
-            // Notify if the build succeeds or fails
             echo 'Deployment finished!'
         }
     }
