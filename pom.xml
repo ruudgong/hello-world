@@ -31,6 +31,7 @@
     </site>
   </distributionManagement>
 
+  <!-- Build plugins should stay here -->
   <build>
     <plugins>
       <plugin>
@@ -50,59 +51,50 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
       </plugin>
+    </plugins>
+  </build>
+
+  <!-- Reporting plugins should be moved here -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.1.2</version> <!-- Updated version -->
+      </plugin>
 
       <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.9.1</version> <!-- Updated version -->
-        <configuration>
-          <reportPlugins>
-            <plugin>
-              <artifactId>maven-checkstyle-plugin</artifactId>
-              <version>3.1.2</version> <!-- Updated version -->
-            </plugin>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.1.1</version> <!-- Updated version -->
+      </plugin>
 
-            <plugin>
-              <artifactId>maven-jxr-plugin</artifactId>
-              <version>3.1.1</version> <!-- Updated version -->
-            </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.1</version> <!-- Updated version -->
+      </plugin>
 
-            <plugin>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <version>3.3.1</version> <!-- Updated version -->
-            </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.14.0</version> <!-- Updated version -->
+      </plugin>
 
-            <plugin>
-              <artifactId>maven-pmd-plugin</artifactId>
-              <version>3.14.0</version> <!-- Updated version -->
-            </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.22.2</version> <!-- Updated version -->
+      </plugin>
 
-            <plugin>
-              <artifactId>maven-surefire-report-plugin</artifactId>
-              <version>2.22.2</version> <!-- Updated version -->
-            </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.5</version> <!-- Updated version -->
+      </plugin>
 
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>findbugs-maven-plugin</artifactId>
-              <version>3.0.5</version> <!-- Updated version -->
-            </plugin>
-
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>taglist-maven-plugin</artifactId>
-              <version>2.9</version> <!-- Updated version -->
-            </plugin>
-          </reportPlugins>
-        </configuration>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.9</version> <!-- Updated version -->
       </plugin>
     </plugins>
-
-    <pluginManagement>
-      <plugins>
-        <!-- Keep other plugins as is, ensure they are updated -->
-      </plugins>
-    </pluginManagement>
-  </build>
+  </reporting>
 
   <dependencyManagement>
     <dependencies>
