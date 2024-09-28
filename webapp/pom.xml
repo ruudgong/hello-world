@@ -16,27 +16,47 @@
   <description>Webapp.</description>
 
   <build>
-    <finalName>${project.artifactId}</finalName>
+    <!-- The final name of the WAR file -->
+    <finalName>${project.artifactId}-${project.version}</finalName>
 
     <plugins>
+      <!-- Jetty Plugin for running the webapp -->
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
+        <version>9.4.44.v20210927</version> <!-- Added explicit version -->
+        <configuration>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
+          <stopPort>8081</stopPort>
+          <stopKey>stop</stopKey>
+        </configuration>
+      </plugin>
+
+      <!-- WAR Plugin for packaging -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version> <!-- Updated version -->
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
-
+    <!-- Provided scope dependencies for servlet and JSP APIs -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
+      <version>2.5</version> <!-- Added explicit version -->
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
+      <version>2.2</version> <!-- Added explicit version -->
       <scope>provided</scope>
     </dependency>
   </dependencies>
