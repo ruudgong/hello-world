@@ -36,7 +36,7 @@ pipeline {
                     sshPublisher(
                         publishers: [
                             sshPublisherDesc(
-                                configName: 'tomcat-server',  // Make sure this matches the SSH server config name
+                                configName: 'fb25259c772c.mylabserver.com',  // Make sure this matches the SSH server config name
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: '**/target/*.war',   // WAR file location
